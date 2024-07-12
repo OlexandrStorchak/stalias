@@ -1,13 +1,12 @@
 self.addEventListener('install', (e) => {
   e.waitUntil(
-      caches.open('alias-pwa').then((cache) => {
+      caches.open('st-alias-pwa').then((cache) => {
           return cache.addAll([
-              '/',
-              '/index.html',
-              '/styles.css',
-              '/scripts.js',
-              '/manifest.json',
-              '/icon.png'
+              'index.html',
+              'styles.css',
+              'scripts.js',
+              'manifest.json',
+              'favicon.png'
           ])
       })
   )
