@@ -12,22 +12,22 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 
-<body>
+<body onload="beforeBegin()">
   <div class="container">
     <header>
+      <button class="back-button" onclick="navigateHome()">На головну</button>
       <h1>Alias Game</h1>
     </header>
     <main>
-      <div class="team-form">
-        <div class="team-input">
-          <label for="team1-name">Команда 1</label>
-          <input type="text" id="team1-name" placeholder="Придумайте назву команди">
-        </div>
-        <div class="team-input">
-          <label for="team2-name">Команда 2</label>
-          <input type="text" id="team2-name" placeholder="Придумайте назву команди">
-        </div>
-        <button class="start-button" onclick="startGame(event)">Почати гру!</button>
+      <section class="team-title">
+        <div id="teamName"></div>
+      </section>
+      <section class="timer">
+        <div id="timer">timer</div>
+      </section>
+      <div class="game-content" id="gameContent">
+        <button id="beginContinuedbtn" class="begin-button" onclick="gameButtonClick(event)">Почати!</button>
+        <button id="nextWordbtn" class="word-button" onclick="nextWord(event)">Наступне</button>
       </div>
     </main>
     <footer>
