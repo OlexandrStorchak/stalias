@@ -8,15 +8,15 @@ self.addEventListener('install', (e) => {
               '/scripts.js',
               '/manifest.json',
               '/icon.png'
-          ]);
+          ])
       })
-  );
-});
+  )
+})
 
 self.addEventListener('fetch', (e) => {
   e.respondWith(
       caches.match(e.request).then((response) => {
-          return response || fetch(e.request);
+          return response || fetch(e.request)
       })
-  );
-});
+  )
+})

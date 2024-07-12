@@ -3,8 +3,8 @@
   "short_name": "Alias",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#44025c",
+  "theme_color": "#44025c",
   "icons": [
       {
           "src": "icon.png",
