@@ -1,6 +1,8 @@
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js')
 window.copyright.innerText = `© ${new Date().getFullYear()} Alias Game`
 
+const SECONDS = 59
+
 const teamNames = [
   "Динаміка", "Блискавка", "Орли", "Титани", "Леви", "Ведмеді", "Соколи", "Кобри", "Штурмовики", "Дракони",
   "Фенікси", "Гладіатори", "Яструби", "Молоти", "Зірки", "Пантера", "Ракети", "Громові", "Вікінги", "Самураї",
@@ -310,17 +312,18 @@ let timerFn
 
 function beginGame(e) {
   e.target.innerText = 'Пауза'
+  window.nextWordbtn.disabled = false
   window.timer.style.visibility = 'visible'
   window.nextWordbtn.style.display = 'block'
-  window.started = true
-  window.seconds = localStorage.getItem('secondsLeft') || 59
+  window.seconds = localStorage.getItem('secondsLeft') || SECONDS
   timerFn = setInterval(() => tick(), 1000)
   window.word.style.visibility = 'visible'
-  if (window.started && !window.paused) {
+  if (!window.started && !window.paused) {
     window.word.innerText = getRandomWord()
-    // window.skipWordbtn.style.display = 'block'
+    window.word.style.visibility = 'visible'
   }
-  if (!window.started && window.seconds <= 0) onTurnEnd()
+  if (window.started && window.seconds <= 0) onTurnEnd()
+  window.started = true
 }
 
 function nextWord(e) {
@@ -332,6 +335,7 @@ function nextWord(e) {
 }
 
 function pauseGame(e) {
+  window.nextWordbtn.disabled = true
   window.started = false
   window.paused = true
   window.word.style.visibility = 'hidden'
@@ -353,7 +357,7 @@ function tick() {
 function onSecondsEnd() {
   localStorage.removeItem('secondsLeft')
   window.started = false
-  window.seconds = 60
+  window.seconds = SECONDS
   window.beginContinuedbtn.style.display = 'none'
 }
 
@@ -361,12 +365,13 @@ function onTurnEnd() {
   changeActiveTeam()
   window.beginContinuedbtn.innerText = 'Почати'
   window.beginContinuedbtn.style.display = 'block'
-  window.word.style.display = 'none'
+  window.word.style.visibility = 'hidden'
   window.timer.style.visibility = 'hidden'
   beforeBegin()
 }
 
 function changeActiveTeam() {
+  const round = 0
   if (window.activeTeam === localStorage.getItem('team1')) {
     window.activeTeam = localStorage.getItem('team2')
   } else {
