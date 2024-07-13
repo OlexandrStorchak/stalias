@@ -1,7 +1,7 @@
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js')
-window.copyright.innerText = `© ${new Date().getFullYear()} Alias Game`
+window.copyright.innerText = `AlexSt © ${new Date().getFullYear()} Alias Game`
 
-const SECONDS = 59
+const SECONDS = 5
 
 const teamNames = [
   "Динаміка", "Блискавка", "Орли", "Титани", "Леви", "Ведмеді", "Соколи", "Кобри", "Штурмовики", "Дракони",
@@ -363,6 +363,7 @@ function onSecondsEnd() {
 
 function onTurnEnd() {
   changeActiveTeam()
+  checkForVictory()
   window.beginContinuedbtn.innerText = 'Почати'
   window.beginContinuedbtn.style.display = 'block'
   window.word.style.visibility = 'hidden'
@@ -371,18 +372,41 @@ function onTurnEnd() {
 }
 
 function changeActiveTeam() {
-  const round = 0
+  window.endRound = false
   if (window.activeTeam === localStorage.getItem('team1')) {
     window.activeTeam = localStorage.getItem('team2')
   } else {
     window.activeTeam = localStorage.getItem('team1')
+    window.endRound = true
   }
 }
 
+function checkForVictory() {
+  const team1 = localStorage.getItem('team1')
+  const team2 = localStorage.getItem('team2')
+  const team1score = localStorage.getItem(`${team1}_score`)
+  const team2score = localStorage.getItem(`${team2}_score`)
+  if ((team1score || team2score > 10) && window.endRound) {
+    window.results.open = true
+    window.teamWinnerName.innerText = team1
+    window.teamWinnerScore.innerText = `(${team1score})`
+    window.teamLoserName.innerText = team2
+    window.teamLoserScore.innerText = `(${team2score})`
+    document.querySelector('.team-title').remove()
+    document.querySelector('.word').remove()
+    document.querySelector('.timer').remove()
+    document.querySelector('.game-content').remove()
+  }
+}
 
 function endGame() {
   if (window.confirm("Завершити гру?")) {
     localStorage.clear()
     window.location.href = 'index.html'
   }
+}
+
+function gameOver() {
+  localStorage.clear()
+  window.location.href = 'index.html'
 }

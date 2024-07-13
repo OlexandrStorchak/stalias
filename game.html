@@ -35,6 +35,22 @@
         <button id="nextWordbtn" class="button" onclick="nextWord(event)">Наступне</button>
         <button id="skipWordbtn" class="button" onclick="nextWord(event)">Пропустити</button>
       </div>
+      <dialog id="results" class="results">
+        <section class="team-title">
+          <span>Гру завершено!</span>
+        </section>
+        <section class="team-title">
+          <span id="teamWinnerName"></span>
+          <span id="teamWinnerScore"></span>
+        </section>
+        <section class="team-title">
+          <span id="teamLoserName"></span>
+          <span id="teamLoserScore"></span>
+        </section>
+        <form method="dialog">
+          <button onclick="gameOver()">OK</button>
+        </form>
+      </dialog>
     </main>
     <footer>
       <p id="copyright"></p>

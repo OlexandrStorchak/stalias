@@ -160,6 +160,45 @@ main {
   text-shadow: 0px 0px 20px #ff1919;
 }
 
+dialog[open] {
+  display: flex;
+  background: transparent;
+  opacity: 1;
+  transform: scaleY(1);
+  border: 1px solid #ff8ef6;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow: hidden;
+  width: 320px;
+  flex-direction: column;
+  color: #000;
+  text-align: center;
+  border-radius: 20px;
+  padding: 30px 30px 70px;
+}
+
+dialog[open] button {
+  margin-top: 2rem;
+  background-color: #d0a0cd;
+  border: none;
+  border-radius: 5px;
+  width: 200px;
+  padding: 14px;
+  font-size: 16px;
+  color: white;
+  box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
+}
+
+dialog {
+  opacity: 0;
+  transform: scaleY(0);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out,
+    overlay 0.7s ease-out allow-discrete,
+    display 0.7s ease-out allow-discrete;
+}
+
 footer {
   margin-bottom: 20px;
 }
