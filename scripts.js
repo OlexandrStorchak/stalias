@@ -108,6 +108,7 @@ function beginGame(e) {
   window.word.style.visibility = 'visible'
   if (window.started && !window.paused) {
     window.word.innerText = getRandomWord()
+    // window.skipWordbtn.style.display = 'block'
   }
   if (!window.started && window.seconds <= 0) onTurnEnd()
 }
@@ -143,11 +144,13 @@ function onSecondsEnd() {
   localStorage.removeItem('secondsLeft')
   window.started = false
   window.seconds = 60
-  window.beginContinuedbtn.innerText = 'Почати'
+  window.beginContinuedbtn.style.display = 'none'
 }
 
 function onTurnEnd() {
   changeActiveTeam()
+  window.beginContinuedbtn.innerText = 'Почати'
+  window.beginContinuedbtn.style.display = 'block'
   window.word.style.display = 'none'
   window.timer.style.visibility = 'hidden'
   beforeBegin()
