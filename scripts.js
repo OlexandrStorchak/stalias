@@ -41,12 +41,12 @@ function getRandomWord() {
 }
 
 function onLaunch() {
+  setRandomNames()
   if (localStorage.getItem('team1') != null || localStorage.getItem('team2') != null) {
     window.continueBtn.style.display = 'block'
   } else {
     window.continueBtn.style.display = 'none'
   }
-  setRandomNames()
 }
 
 function setRandomNames() {
