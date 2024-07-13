@@ -1,4 +1,9 @@
-/* Base styles */
+@font-face {
+  font-family: 'Spaceland';
+  src: url('Spaceland.otf') format('otf');
+}
+
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -54,21 +59,6 @@ main {
   background-color: rebeccapurple;
 }
 
-.start-button {
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  color: #2a2a2a;
-  background-color: #d0a0cd;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.start-button:hover {
-  background-color: #ca6ec4;
-}
-
 .game-header {
   display: flex;
   width: 100vw;
@@ -78,6 +68,7 @@ main {
 .back-button {
   position: fixed;
   left: 0px;
+  top: 5px;
   font-size: 1.2rem;
   color: #999999;
   background-color: #353535;
@@ -91,81 +82,75 @@ main {
   background-color: #45a04947;
 }
 
+.end-game-button {
+  position: fixed;
+  right: 0px;
+  top: 5px;
+  font-size: 1.2rem;
+  color: #999999;
+  background-color: #353535;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.end-game-button:hover {
+  background-color: #45a04947;
+}
+
+.button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  color: #2a2a2a;
+  background-color: #d0a0cd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #ca6ec4;
+}
+
 .game-content {
   display: flex;
   width: 100vw;
   justify-content: space-around;
 }
 
-.begin-button {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: sans-serif;
-  font-size: 1rem;
-  padding: 20px;
-  border: none;
-  background-color: #d0a0cd;
-  color: white;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.begin-button:hover {
-  background-color: #ca6ec4;
-}
-
-.word-button {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: sans-serif;
-  font-size: 1rem;
-  padding: 20px;
-  border: none;
-  background-color: #d0a0cd;
-  color: white;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.word-button:hover {
-  background-color: #ca6ec4;
-}
-
-.skip-button {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: sans-serif;
-  font-size: 1rem;
-  padding: 20px;
-  border: none;
-  background-color: #d0a0cd;
-  color: white;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.skip-button:hover {
-  background-color: #ca6ec4;
-}
-
 .timer {
   font-size: 3rem;
-  color: #ff0000;
-  font-family: sans-serif;
+  color: #b4b4b4;
+  font-family: "Verdana", "sans-serif";
 }
 
 .team-title {
-  font-size: 3rem;
-  color: #212121;
-  font-family: sans-serif;
+  display: flex;
 }
 
+.team-title span {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: "Verdana", "sans-serif";
+  font-size: 2rem;
+  color: hsl(0, 0%, 72%);
+  font-weight: 900;
+  text-shadow: 0px 0px 2px #ff8ef6;
+}
+
+.word {
+  display: flex;
+}
+
+.word p {
+  font-family: "Verdana", "sans-serif";
+  font-size: 2rem;
+  color: hsl(0, 0%, 72%);
+  font-weight: 900;
+  text-shadow: 0px 0px 20px #ff1919;
+}
 
 footer {
   margin-bottom: 20px;
