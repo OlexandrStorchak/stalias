@@ -1,7 +1,8 @@
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js')
 window.copyright.innerText = `AlexSt © ${new Date().getFullYear()} Alias Game`
 
-const SECONDS = 5
+const SECONDS = 59
+const WINRATE = 60
 
 const teamNames = [
   "Динаміка", "Блискавка", "Орли", "Титани", "Леви", "Ведмеді", "Соколи", "Кобри", "Штурмовики", "Дракони",
@@ -386,7 +387,7 @@ function checkForVictory() {
   const team2 = localStorage.getItem('team2')
   const team1score = localStorage.getItem(`${team1}_score`)
   const team2score = localStorage.getItem(`${team2}_score`)
-  if ((team1score || team2score > 10) && window.endRound) {
+  if ((team1score || team2score >= WINRATE) && window.endRound) {
     window.results.open = true
     window.teamWinnerName.innerText = team1
     window.teamWinnerScore.innerText = `(${team1score})`
