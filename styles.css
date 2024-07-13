@@ -57,6 +57,7 @@ main {
   border-radius: 5px;
   width: 90%;
   background-color: rebeccapurple;
+  text-align: center;
 }
 
 .game-header {
@@ -114,6 +115,12 @@ main {
   background-color: #ca6ec4;
 }
 
+.start-btn {
+  margin-top: 2rem;
+  padding: 5px 30px;
+  width: 100%;
+}
+
 .game-content {
   display: flex;
   width: 100vw;
@@ -124,6 +131,7 @@ main {
   font-size: 3rem;
   color: #b4b4b4;
   font-family: "Verdana", "sans-serif";
+  visibility: hidden;
 }
 
 .team-title {

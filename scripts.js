@@ -56,27 +56,25 @@ function setRandomNames() {
 
 function navigateHome() { window.location.href = 'index.html' }
 
+function continueGame() { window.location.href = 'game.html' }
 
-function continueGame() {
-  window.location.href = 'game.html'
-}
-
-function startGame(e) {
+function startGame() {
   if (localStorage.getItem('team1') != null || localStorage.getItem('team2') != null) {
     if (window.confirm("Почати нову гру?")) {
-      localStorage.clear
-      setRandomNames()
-      e.target.disabled = true
-
-      if (window.team1Name.value && window.team2Name.value) {
-        localStorage.setItem('team1', window.team1Name.value)
-        localStorage.setItem('team2', window.team2Name.value)
-        window.location.href = 'game.html'
-      } else {
-        setRandomNames()
-        e.target.disabled = false
-      }
+      newGame()
     }
+  } else {
+    newGame()
+  }
+}
+
+function newGame() {
+  localStorage.clear
+
+  if (window.team1Name.value && window.team2Name.value) {
+    localStorage.setItem('team1', window.team1Name.value)
+    localStorage.setItem('team2', window.team2Name.value)
+    window.location.href = 'game.html'
   }
 }
 
@@ -102,15 +100,16 @@ let timerFn
 
 function beginGame(e) {
   e.target.innerText = 'Пауза'
-  window.timer.style.display = 'block'
+  window.timer.style.visibility = 'visible'
   window.nextWordbtn.style.display = 'block'
   window.started = true
   window.seconds = localStorage.getItem('secondsLeft') || 59
   timerFn = setInterval(() => tick(), 1000)
-  if (window.started) {
-    window.word.style.display = 'block'
+  window.word.style.visibility = 'visible'
+  if (window.started && !window.paused) {
     window.word.innerText = getRandomWord()
   }
+  if (!window.started && window.seconds <= 0) onTurnEnd()
 }
 
 function nextWord(e) {
@@ -123,6 +122,8 @@ function nextWord(e) {
 
 function pauseGame(e) {
   window.started = false
+  window.paused = true
+  window.word.style.visibility = 'hidden'
   e.target.innerText = 'Далі'
   localStorage.setItem('secondsLeft', window.seconds)
   clearInterval(timerFn)
@@ -148,7 +149,7 @@ function onSecondsEnd() {
 function onTurnEnd() {
   changeActiveTeam()
   window.word.style.display = 'none'
-  window.timer.style.display = 'none'
+  window.timer.style.visibility = 'hidden'
   beforeBegin()
 }
 
