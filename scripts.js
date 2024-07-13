@@ -1,8 +1,9 @@
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js')
+window.copyright.innerText = `© ${new Date().getFullYear()} Alias Game`
 
-const navigateHome = () => window.location.href = 'index.html'
+function navigateHome() { window.location.href = 'index.html' }
 
-const startGame = (e) => {
+function startGame(e) {
   e.target.disabled = true
   const team1Name = document.getElementById('team1-name').value
   const team2Name = document.getElementById('team2-name').value
@@ -18,9 +19,9 @@ const startGame = (e) => {
   }
 }
 
-const gameButtonClick = (e) => window.started ? pauseGame(e) : beginGame(e)
+function gameButtonClick(e) { window.started ? pauseGame(e) : beginGame(e) }
 
-const beforeBegin = () => { 
+function beforeBegin() {
   window.teamName.innerText = localStorage.getItem('team1')
   if (window.started) {
     window.nextWordbtn.style.display = 'block'
@@ -31,7 +32,7 @@ const beforeBegin = () => {
 
 let timerFn
 
-const beginGame = (e) => {
+function beginGame(e) {
   e.target.innerText = 'Пауза'
   window.nextWordbtn.style.display = 'block'
   window.started = true
@@ -39,7 +40,7 @@ const beginGame = (e) => {
   timerFn = setInterval(() => tick(), 1000)
 }
 
-const pauseGame = (e) => {
+function pauseGame(e) {
   window.started = false
   e.target.innerText = 'Далі'
   localStorage.setItem('secondsLeft', window.seconds)

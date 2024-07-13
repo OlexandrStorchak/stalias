@@ -15,23 +15,24 @@
 <body onload="beforeBegin()">
   <div class="container">
     <header>
-      <button class="back-button" onclick="navigateHome()">На головну</button>
-      <h1>Alias Game</h1>
+      <img src="logo.png" height="200">
     </header>
+    <button class="back-button" onclick="navigateHome()">На головну</button>
     <main>
       <section class="team-title">
         <div id="teamName"></div>
       </section>
       <section class="timer">
-        <div id="timer">timer</div>
+        <div id="timer"></div>
       </section>
       <div class="game-content" id="gameContent">
         <button id="beginContinuedbtn" class="begin-button" onclick="gameButtonClick(event)">Почати!</button>
         <button id="nextWordbtn" class="word-button" onclick="nextWord(event)">Наступне</button>
+        <button id="skipWordbtn" class="word-button" onclick="nextWord(event)">Пропустити</button>
       </div>
     </main>
     <footer>
-      <p>&copy; 2024 Alias Game</p>
+      <p id="copyright"></p>
     </footer>
   </div>
   <script src="scripts.js"></script>

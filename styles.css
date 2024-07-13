@@ -2,27 +2,17 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #5c0087;
+  color: #919191;
+  background-image: linear-gradient(180deg,
+      hsl(223deg 68% 6%) 0%,
+      hsl(276deg 92% 32%) 22%,
+      hsl(277deg 100% 31%) 75%,
+      hsl(0deg 0% 0%) 100%);
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  text-align: center;
-}
-
-header {
-  margin-top: 20px;
-}
-
-header h1 {
-  font-size: 2rem;
-  color: #4CAF50;
+header img {
+  margin-top: 5dvh;
 }
 
 main {
@@ -34,34 +24,41 @@ main {
   width: 90vw;
 }
 
-.team-form {
+.container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  text-align: center;
+  min-height: 100dvh;
+}
+
+.team-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .team-input {
-  margin-bottom: 20px;
-}
-
-.team-input label {
-  display: block;
-  margin-bottom: 5px;
+  margin: 1rem;
+  width: 80%;
 }
 
 .team-input input {
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
+  color: rgb(198, 198, 198);
   border-radius: 5px;
-  width: 100%;
+  width: 90%;
+  background-color: rebeccapurple;
 }
 
 .start-button {
   padding: 15px 30px;
   font-size: 1.2rem;
-  color: #fff;
-  background-color: #4CAF50;
+  color: #2a2a2a;
+  background-color: #d0a0cd;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -81,10 +78,9 @@ main {
 .back-button {
   position: fixed;
   left: 0px;
-  padding: 15px 30px;
   font-size: 1.2rem;
-  color: #fff;
-  background-color: #7f7f7f;
+  color: #999999;
+  background-color: #353535;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -105,53 +101,68 @@ main {
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: sans-serif;
-  font-size: 3rem;
-  width: 150px;
-  height: 150px;
-  padding: 10px;
+  font-size: 1rem;
+  padding: 20px;
   border: none;
-  background-color: #4CAF50;
+  background-color: #d0a0cd;
   color: white;
-  border-radius: 50%;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .begin-button:hover {
-  background-color: #45a049;
+  background-color: #ca6ec4;
 }
 
 .word-button {
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: sans-serif;
-  font-size: 2rem;
-  width: 150px;
-  height: 150px;
-  padding: 10px;
+  font-size: 1rem;
+  padding: 20px;
   border: none;
-  background-color: #127e14;
+  background-color: #d0a0cd;
   color: white;
-  border-radius: 50%;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .word-button:hover {
-  background-color: #00ad23;
+  background-color: #ca6ec4;
+}
+
+.skip-button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: sans-serif;
+  font-size: 1rem;
+  padding: 20px;
+  border: none;
+  background-color: #d0a0cd;
+  color: white;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.skip-button:hover {
+  background-color: #ca6ec4;
 }
 
 .timer {
   font-size: 3rem;
-  color: #4CAF50;
+  color: #ff0000;
   font-family: sans-serif;
 }
 
 .team-title {
   font-size: 3rem;
-  color: #4CAF50;
+  color: #212121;
   font-family: sans-serif;
 }
 
@@ -162,7 +173,7 @@ footer {
 
 footer p {
   font-size: 0.9rem;
-  color: #666;
+  color: rgb(125, 125, 125);
 }
 
 /* Mobile-first styles */

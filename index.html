@@ -15,23 +15,21 @@
 <body>
   <div class="container">
     <header>
-      <h1>Alias Game</h1>
+      <img src="logo.png" height="200">
     </header>
     <main>
       <div class="team-form">
         <div class="team-input">
-          <label for="team1-name">Команда 1</label>
           <input type="text" id="team1-name" placeholder="Придумайте назву команди">
         </div>
         <div class="team-input">
-          <label for="team2-name">Команда 2</label>
           <input type="text" id="team2-name" placeholder="Придумайте назву команди">
         </div>
-        <button class="start-button" onclick="startGame(event)">Почати гру!</button>
       </div>
+      <button class="start-button" onclick="startGame(event)">Почати гру!</button>
     </main>
     <footer>
-      <p>&copy; 2024 Alias Game</p>
+      <p id="copyright"></p>
     </footer>
   </div>
   <script src="scripts.js"></script>
