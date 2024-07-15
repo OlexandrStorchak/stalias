@@ -364,7 +364,7 @@ function onSecondsEnd() {
 
 function onTurnEnd() {
   changeActiveTeam()
-  checkForVictory()
+  if (checkForVictory()) return
   window.beginContinuedbtn.innerText = 'Почати'
   window.beginContinuedbtn.style.display = 'block'
   window.word.style.visibility = 'hidden'
@@ -385,9 +385,9 @@ function changeActiveTeam() {
 function checkForVictory() {
   const team1 = localStorage.getItem('team1')
   const team2 = localStorage.getItem('team2')
-  const team1score = localStorage.getItem(`${team1}_score`)
-  const team2score = localStorage.getItem(`${team2}_score`)
-  if ((team1score || team2score >= WINRATE) && window.endRound) {
+  const team1score = parseInt(localStorage.getItem(`${team1}_score`))
+  const team2score = parseInt(localStorage.getItem(`${team2}_score`))
+  if (((team1score >= WINRATE) || (team2score >= WINRATE)) && window.endRound) {
     window.results.open = true
     window.teamWinnerName.innerText = team1
     window.teamWinnerScore.innerText = `(${team1score})`
@@ -397,6 +397,7 @@ function checkForVictory() {
     document.querySelector('.word').remove()
     document.querySelector('.timer').remove()
     document.querySelector('.game-content').remove()
+    return true
   }
 }
 
