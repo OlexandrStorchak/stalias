@@ -33,16 +33,20 @@ function getRandomTeamName() {
 
 function getRandomWord() {
   const randomIndex = Math.floor(Math.random() * words.length)
-  const word = words.splice(randomIndex, 1)
+  const word = words.splice(randomIndex, 1)[0]
   return word
 }
 
 function onLaunch() {
   loadWords().then(() => {
-    setRandomNames()
-    if (localStorage.getItem('team1') != null || localStorage.getItem('team2') != null) {
+    const team1 = localStorage.getItem('team1')
+    const team2 = localStorage.getItem('team2')
+    if (team1 && team2) {
+      window.team1Name.value = team1
+      window.team2Name.value = team2
       window.continueBtn.style.display = 'block'
     } else {
+      setRandomNames()
       window.continueBtn.style.display = 'none'
     }
   })
@@ -68,7 +72,7 @@ function startGame() {
 }
 
 function newGame() {
-  localStorage.clear
+  localStorage.clear()
 
   if (window.team1Name.value && window.team2Name.value) {
     localStorage.setItem('team1', window.team1Name.value)
