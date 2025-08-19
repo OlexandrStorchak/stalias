@@ -79,7 +79,8 @@ function newGame() {
 
 function gameButtonClick(e) { window.started ? pauseGame(e) : beginGame(e) }
 
-function beforeBegin() {
+async function beforeBegin() {
+  if (words.length === 0) await loadWords()
   if (window.activeTeam === undefined) window.activeTeam = localStorage.getItem('team1')
   window.teamName.innerText = window.activeTeam || localStorage.getItem('team1')
   window.teamScore.innerText = ` (${localStorage.getItem(`${window.activeTeam}_score`)})`

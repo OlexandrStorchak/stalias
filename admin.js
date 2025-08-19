@@ -3,6 +3,7 @@ async function init() {
     document.body.innerHTML = '<h1>Forbidden</h1>';
     return;
   }
+  await dbSeedWords();
   await refresh();
 }
 
@@ -18,8 +19,12 @@ async function refresh() {
     editBtn.onclick = async () => {
       const updated = prompt('Edit word', item.word);
       if (updated) {
-        await dbUpdateWord(item.id, updated);
-        refresh();
+        try {
+          await dbUpdateWord(item.id, updated);
+          refresh();
+        } catch (e) {
+          alert('Word already exists');
+        }
       }
     };
     const delBtn = document.createElement('button');
@@ -38,9 +43,13 @@ async function addWord() {
   const input = document.getElementById('newWord');
   const word = input.value.trim();
   if (word) {
-    await dbAddWord(word);
-    input.value = '';
-    refresh();
+    try {
+      await dbAddWord(word);
+      input.value = '';
+      refresh();
+    } catch (e) {
+      alert('Word already exists');
+    }
   }
 }
 

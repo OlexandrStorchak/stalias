@@ -1,14 +1,20 @@
 const DB_NAME = 'alias';
 const STORE_NAME = 'words';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 function openDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onupgradeneeded = () => {
       const db = request.result;
+      let store;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+        store = db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+      } else {
+        store = request.transaction.objectStore(STORE_NAME);
+      }
+      if (!store.indexNames.contains('word')) {
+        store.createIndex('word', 'word', { unique: true });
       }
     };
     request.onerror = () => reject(request.error);
@@ -58,7 +64,21 @@ async function dbAddWord(word) {
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readwrite');
-    tx.objectStore(STORE_NAME).add({ word });
+    const store = tx.objectStore(STORE_NAME);
+    const index = store.index('word');
+    const check = index.get(word);
+    check.onsuccess = () => {
+      if (check.result) {
+        tx.abort();
+        reject(new Error('Word already exists'));
+      } else {
+        store.add({ word });
+      }
+    };
+    check.onerror = () => {
+      tx.abort();
+      reject(check.error);
+    };
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
   });
