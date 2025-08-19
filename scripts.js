@@ -112,6 +112,7 @@ async function beginGame(e) {
   timerFn = setInterval(() => tick(), 1000)
   window.word.style.visibility = 'visible'
   if (!window.started && !window.paused) {
+
     window.word.innerText = getRandomWord()
     window.word.style.visibility = 'visible'
   }
