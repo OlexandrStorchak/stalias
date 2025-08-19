@@ -1,5 +1,5 @@
-const CACHE_NAME = 'st-alias-pwa-v14'
-const urlsToCache = ['index.html', 'game.html', 'styles.css', 'scripts.js', 'manifest.json', 'favicon.png', 'logo.png']
+const CACHE_NAME = 'st-alias-pwa-v15'
+const urlsToCache = ['index.html', 'game.html', 'admin.html', 'styles.css', 'scripts.js', 'admin.js', 'db.js', 'words.json', 'manifest.json', 'favicon.png', 'logo.png']
 
 self.addEventListener('install', (event) => {
     event.waitUntil(caches.open(CACHE_NAME)
