@@ -102,7 +102,8 @@ async function beforeBegin() {
 
 let timerFn
 
-function beginGame(e) {
+async function beginGame(e) {
+  if (words.length === 0) await loadWords()
   e.target.innerText = 'Пауза'
   window.nextWordbtn.disabled = false
   window.timer.style.visibility = 'visible'
@@ -137,7 +138,7 @@ function pauseGame(e) {
 }
 
 function tick() {
-  window.timer.innerText = seconds
+  window.timer.innerText = window.seconds
   if (window.seconds <= 0) {
     clearInterval(timerFn)
     onSecondsEnd()

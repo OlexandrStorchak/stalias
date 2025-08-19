@@ -38,7 +38,7 @@ async function dbSeedWords() {
         const words = await res.json();
         const txAdd = db.transaction(STORE_NAME, 'readwrite');
         const storeAdd = txAdd.objectStore(STORE_NAME);
-        words.forEach((word) => storeAdd.add({ word }));
+        words.forEach((word) => storeAdd.add({ word: word.trim().toLowerCase() }));
         txAdd.oncomplete = () => resolve();
         txAdd.onerror = () => reject(txAdd.error);
       } catch (e) {
@@ -61,6 +61,7 @@ async function dbGetAllWords() {
 }
 
 async function dbAddWord(word) {
+  word = word.trim().toLowerCase();
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readwrite');
@@ -85,6 +86,7 @@ async function dbAddWord(word) {
 }
 
 async function dbUpdateWord(id, word) {
+  word = word.trim().toLowerCase();
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readwrite');

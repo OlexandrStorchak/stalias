@@ -1,8 +1,4 @@
 async function init() {
-  if (prompt('Password') !== 'admin') {
-    document.body.innerHTML = '<h1>Forbidden</h1>';
-    return;
-  }
   await dbSeedWords();
   await refresh();
 }
