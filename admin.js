@@ -9,7 +9,7 @@ async function refresh() {
   list.innerHTML = '';
   data.forEach((item) => {
     const li = document.createElement('li');
-    li.textContent = item.word + ' ';
+    li.textContent = `${item.word} `;
     const editBtn = document.createElement('button');
     editBtn.innerText = 'Edit';
     editBtn.onclick = async () => {
