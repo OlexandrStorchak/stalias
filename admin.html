@@ -2,13 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alias</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap" rel="stylesheet">
   <title>Alias Admin</title>
 </head>
-<body>
-  <h1>Manage Words</h1>
-  <ul id="words"></ul>
-  <input id="newWord" placeholder="New word">
-  <button onclick="addWord()">Add</button>
+<body class="words">
+  <section>
+    <ul id="words">
+      /* Words will be added here by JavaScript */
+    </ul>
+    <form>
+      <form-group>
+        <input id="newWord" placeholder="Додати нове слово">
+        <button onclick="addWord()">+</button>
+      </form-group>
+    </form>
+  </section>
   <script src="db.js"></script>
   <script src="admin.js"></script>
 </body>

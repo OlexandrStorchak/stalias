@@ -1,4 +1,4 @@
-const CACHE_NAME = 'st-alias-pwa-v15'
+const CACHE_NAME = 'st-alias-pwa-v16'
 const urlsToCache = ['index.html', 'game.html', 'admin.html', 'styles.css', 'scripts.js', 'admin.js', 'db.js', 'words.json', 'manifest.json', 'favicon.png', 'logo.png']
 
 self.addEventListener('install', (event) => {
