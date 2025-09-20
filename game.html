@@ -13,6 +13,7 @@
 </head>
 
 <body class="app app-game" onload="beforeBegin()">
+  <!-- Liquid glass focus backdrop for the gameplay screen -->
   <div class="app-backdrop liquid-glass" aria-hidden="true"></div>
   <div class="app-shell">
     <div class="container app-card" role="main">
@@ -24,6 +25,7 @@
         </div>
       </header>
       <main class="app-main">
+        <!-- Frosted shelf wraps the active round controls -->
         <div class="primary-panel frosted-shelf game-panel">
           <section class="team-title">
             <span id="teamName"></span>
@@ -64,6 +66,7 @@
       </footer>
     </div>
   </div>
+  <!-- Keyboard shortcuts modal overlay -->
   <div id="shortcutsOverlay" class="shortcuts-overlay" hidden aria-hidden="true">
     <div class="shortcuts-backdrop" data-shortcuts-close></div>
     <div class="shortcuts-panel frosted-shelf" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle">

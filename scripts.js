@@ -329,6 +329,28 @@ function createShortcutOverlay() {
   const rovingItems = Array.from(overlay.querySelectorAll('[data-shortcut-item]'))
   let lastFocused = null
   let activeIndex = 0
+  let focusableNodes = []
+
+  // Annotate shortcut toggles for assistive tech and track state.
+  openTargets.forEach(trigger => {
+    trigger.setAttribute('aria-haspopup', 'dialog')
+    trigger.setAttribute('aria-expanded', 'false')
+  })
+
+  const focusableSelector = 'button, [href], input, select, textarea, [tabindex]'
+
+  const refreshFocusable = () => {
+    if (!panel) {
+      focusableNodes = []
+      return
+    }
+    focusableNodes = Array.from(panel.querySelectorAll(focusableSelector)).filter(element => {
+      if (!(element instanceof HTMLElement)) return false
+      if (element.hasAttribute('disabled')) return false
+      if (element.getAttribute('aria-hidden') === 'true') return false
+      return element.tabIndex !== -1
+    })
+  }
 
   const setRoving = index => {
     rovingItems.forEach((item, idx) => {
@@ -336,9 +358,14 @@ function createShortcutOverlay() {
       item.setAttribute('role', 'listitem')
     })
     activeIndex = index
+    refreshFocusable()
   }
 
   setRoving(0)
+
+  const syncTriggerState = expanded => {
+    openTargets.forEach(trigger => trigger.setAttribute('aria-expanded', String(expanded)))
+  }
 
   const open = () => {
     if (!overlay.hidden) return
@@ -347,6 +374,7 @@ function createShortcutOverlay() {
     overlay.setAttribute('aria-hidden', 'false')
     document.body.classList.add('shortcuts-open')
     setRoving(0)
+    syncTriggerState(true)
     const firstItem = rovingItems[0]
     if (firstItem) focusElement(firstItem)
   }
@@ -356,6 +384,8 @@ function createShortcutOverlay() {
     overlay.hidden = true
     overlay.setAttribute('aria-hidden', 'true')
     document.body.classList.remove('shortcuts-open')
+    syncTriggerState(false)
+    focusableNodes = []
     if (lastFocused) focusElement(lastFocused)
   }
 
@@ -381,10 +411,24 @@ function createShortcutOverlay() {
     if (target && target.dataset && target.dataset.shortcutsClose !== undefined) close()
   })
 
+  // Keep focus cycling within the modal and allow quick escape.
   overlay.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       event.preventDefault()
       close()
+    }
+    if (event.key === 'Tab' && focusableNodes.length) {
+      const first = focusableNodes[0]
+      const last = focusableNodes[focusableNodes.length - 1]
+      if (event.shiftKey) {
+        if (document.activeElement === first) {
+          event.preventDefault()
+          focusElement(last)
+        }
+      } else if (document.activeElement === last) {
+        event.preventDefault()
+        focusElement(first)
+      }
     }
   })
 
