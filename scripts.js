@@ -91,6 +91,8 @@ async function beforeBegin() {
 
   if (localStorage.getItem(`${window.activeTeam}_score`) == null) window.teamScore.innerText = '(0)'
 
+  initializeSoundToggle()
+
   if (window.started) {
     window.nextWordbtn.style.display = 'block'
     window.skipWordbtn.style.display = 'block'
@@ -191,6 +193,41 @@ function checkForVictory() {
     document.querySelector('.timer').remove()
     document.querySelector('.game-content').remove()
     return true
+  }
+}
+
+function initializeSoundToggle() {
+  const toggle = document.querySelector('.sound-toggle')
+  if (!toggle) return
+
+  const saved = localStorage.getItem('soundEnabled') || 'on'
+  const isMuted = saved !== 'on'
+  const label = toggle.querySelector('.sound-label')
+
+  toggle.dataset.state = isMuted ? 'muted' : 'on'
+  toggle.classList.toggle('is-muted', isMuted)
+  toggle.setAttribute('aria-pressed', (!isMuted).toString())
+  if (label) label.innerText = isMuted ? 'Звук вимкнено' : 'Звук увімкнено'
+}
+
+function toggleSound(button) {
+  if (!button) return
+
+  const willEnable = button.dataset.state === 'muted'
+  button.dataset.state = willEnable ? 'on' : 'muted'
+  button.classList.toggle('is-muted', !willEnable)
+  button.setAttribute('aria-pressed', willEnable.toString())
+
+  const label = button.querySelector('.sound-label')
+  if (label) label.innerText = willEnable ? 'Звук увімкнено' : 'Звук вимкнено'
+
+  localStorage.setItem('soundEnabled', willEnable ? 'on' : 'off')
+
+  const glow = button.querySelector('.sound-glow')
+  if (glow) {
+    glow.style.animation = 'none'
+    void glow.offsetHeight
+    glow.style.animation = ''
   }
 }
 
