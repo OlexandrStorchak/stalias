@@ -6,55 +6,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alias</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 
-<body onload="beforeBegin()">
-  <div class="container">
-    <header>
-      <img src="logo.png" height="200">
-    </header>
-    <button class="back-button" onclick="navigateHome()">На головну</button>
-    <button class="end-game-button" onclick="endGame()">Завершити</button>
-    <main>
-      <section class="team-title">
-        <span id="teamName"></span>
-        <span id="teamScore"></span>
-      </section>
-      <section class="word">
-        <p id="word"></p>
-      </section>
-      <section class="timer">
-        <div id="timer"></div>
-      </section>
-      <div class="game-content" id="gameContent">
-        <button id="beginContinuedbtn" class="button" onclick="gameButtonClick(event)">Почати!</button>
-        <button id="nextWordbtn" class="button" onclick="nextWord(event)">Наступне</button>
-        <button id="skipWordbtn" class="button" onclick="nextWord(event)">Пропустити</button>
-      </div>
-      <dialog id="results" class="results">
-        <section class="team-title">
-          <span>Гру завершено!</span>
-        </section>
-        <section class="team-title">
-          <span id="teamWinnerName"></span>
-          <span id="teamWinnerScore"></span>
-        </section>
-        <section class="team-title">
-          <span id="teamLoserName"></span>
-          <span id="teamLoserScore"></span>
-        </section>
-        <form method="dialog">
-          <button onclick="gameOver()">OK</button>
-        </form>
-      </dialog>
-    </main>
-    <footer>
-      <p id="copyright"></p>
-    </footer>
+<body class="app app-game" onload="beforeBegin()">
+  <div class="app-backdrop liquid-glass" aria-hidden="true"></div>
+  <div class="app-shell">
+    <div class="container app-card" role="main">
+      <header class="app-header game-header">
+        <img src="logo.png" height="200" alt="Alias">
+        <div class="utility-actions">
+          <button class="back-button glow" onclick="navigateHome()">На головну</button>
+          <button class="end-game-button glow" onclick="endGame()">Завершити</button>
+        </div>
+      </header>
+      <main class="app-main">
+        <div class="primary-panel frosted-shelf game-panel">
+          <section class="team-title">
+            <span id="teamName"></span>
+            <span id="teamScore"></span>
+          </section>
+          <section class="word">
+            <p id="word"></p>
+          </section>
+          <section class="timer" aria-live="polite">
+            <div id="timer"></div>
+          </section>
+          <div class="game-content" id="gameContent">
+            <button id="beginContinuedbtn" class="button glow" data-quick-index="1" onclick="gameButtonClick(event)">Почати!</button>
+            <button id="nextWordbtn" class="button glow" data-quick-index="2" onclick="nextWord(event)">Наступне</button>
+            <button id="skipWordbtn" class="button glow" data-quick-index="3" onclick="nextWord(event)">Пропустити</button>
+          </div>
+          <dialog id="results" class="results">
+            <section class="team-title">
+              <span>Гру завершено!</span>
+            </section>
+            <section class="team-title">
+              <span id="teamWinnerName"></span>
+              <span id="teamWinnerScore"></span>
+            </section>
+            <section class="team-title">
+              <span id="teamLoserName"></span>
+              <span id="teamLoserScore"></span>
+            </section>
+            <form method="dialog">
+              <button class="button glow" onclick="gameOver()">OK</button>
+            </form>
+          </dialog>
+        </div>
+      </main>
+      <footer class="app-footer">
+        <p id="copyright"></p>
+        <button type="button" class="shortcuts-link" data-shortcuts-open>Клавіатурні скорочення</button>
+      </footer>
+    </div>
+  </div>
+  <div id="shortcutsOverlay" class="shortcuts-overlay" hidden aria-hidden="true">
+    <div class="shortcuts-backdrop" data-shortcuts-close></div>
+    <div class="shortcuts-panel frosted-shelf" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle">
+      <header class="shortcuts-header">
+        <h2 id="shortcutsTitle">Клавіатурні скорочення</h2>
+        <button type="button" class="icon-button glow" data-shortcuts-close aria-label="Закрити список скорочень">
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+      <p class="shortcuts-meta">Натисніть <kbd>?</kbd>, щоб показати або сховати цей список.</p>
+      <ul class="shortcuts-list" role="list">
+        <li data-shortcut-item tabindex="0"><kbd>/</kbd><span>Фокус на полі пошуку або фільтру</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>Space</kbd><span>Почати або призупинити таймер</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>N</kbd><span>Наступне слово</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>S</kbd><span>Пропустити слово</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>←</kbd><span>Перехід до попередньої колекції</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>→</kbd><span>Перехід до наступної колекції</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>1–9</kbd><span>Швидкий запуск основних дій</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>Esc</kbd><span>Закрити це вікно</span></li>
+      </ul>
+    </div>
   </div>
   <script src="db.js"></script>
   <script src="scripts.js"></script>

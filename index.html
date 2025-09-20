@@ -6,33 +6,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alias</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 
-<body onLoad="onLaunch()">
-  <div class="container">
-    <header>
-      <img src="logo.png" height="200" id="logo" onclick="setRandomNames()">
-    </header>
-    <main>
-      <div class="team-form">
-        <div class="team-input">
-          <input type="text" id="team1Name" placeholder="Придумайте назву команди">
+<body class="app app-home" onload="onLaunch()">
+  <div class="app-backdrop liquid-glass" aria-hidden="true"></div>
+  <div class="app-shell">
+    <div class="container app-card" role="main">
+      <header class="app-header">
+        <img src="logo.png" height="200" id="logo" alt="Alias" onclick="setRandomNames()">
+      </header>
+      <main class="app-main">
+        <div class="primary-panel frosted-shelf home-panel">
+          <div class="team-form">
+            <div class="team-input">
+              <label class="visually-hidden" for="team1Name">Назва команди 1</label>
+              <input type="text" id="team1Name" data-filter-input placeholder="Придумайте назву команди">
+            </div>
+            <div class="team-input">
+              <label class="visually-hidden" for="team2Name">Назва команди 2</label>
+              <input type="text" id="team2Name" placeholder="Придумайте назву команди">
+              <button class="button start-btn glow" data-quick-index="1" onclick="startGame()">Почати !</button>
+            </div>
+          </div>
+          <button class="button glow" data-quick-index="2" id="continueBtn" onclick="continueGame()">Продовжити !</button>
         </div>
-        <div class="team-input">
-          <input type="text" id="team2Name" placeholder="Придумайте назву команди">
-          <button class="button start-btn" onclick="startGame()">Почати !</button>
+      </main>
+      <footer class="app-footer">
+        <div class="footer-meta">
+          <p id="copyright"></p>
+          <a class="footer-link" href="admin.html">Адмін</a>
         </div>
-      </div>
-      <button class="button" id="continueBtn" onclick="continueGame()">Продовжити !</button>
-    </main>
-    <footer>
-      <p id="copyright"></p>
-      <a href="admin.html">Адмін</a>
-    </footer>
+        <button type="button" class="shortcuts-link" data-shortcuts-open>Клавіатурні скорочення</button>
+      </footer>
+    </div>
+  </div>
+  <div id="shortcutsOverlay" class="shortcuts-overlay" hidden aria-hidden="true">
+    <div class="shortcuts-backdrop" data-shortcuts-close></div>
+    <div class="shortcuts-panel frosted-shelf" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle">
+      <header class="shortcuts-header">
+        <h2 id="shortcutsTitle">Клавіатурні скорочення</h2>
+        <button type="button" class="icon-button glow" data-shortcuts-close aria-label="Закрити список скорочень">
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+      <p class="shortcuts-meta">Натисніть <kbd>?</kbd>, щоб показати або сховати цей список.</p>
+      <ul class="shortcuts-list" role="list">
+        <li data-shortcut-item tabindex="0"><kbd>/</kbd><span>Фокус на полі пошуку або фільтру</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>Space</kbd><span>Почати або призупинити таймер</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>N</kbd><span>Наступне слово</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>S</kbd><span>Пропустити слово</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>←</kbd><span>Перехід до попередньої колекції</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>→</kbd><span>Перехід до наступної колекції</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>1–9</kbd><span>Швидкий запуск основних дій</span></li>
+        <li data-shortcut-item tabindex="-1"><kbd>Esc</kbd><span>Закрити це вікно</span></li>
+      </ul>
+    </div>
   </div>
   <script src="db.js"></script>
   <script src="scripts.js"></script>
