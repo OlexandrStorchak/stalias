@@ -1,21 +1,20 @@
 :root {
-        --accent: #d0a0cd;
-        --bg-tint: rgba(17, 0, 32, 0.62);
-        --glass-r: 22px;
-        --glass-alpha: 0.28;
-        --blur: 18px;
-        --background: linear-gradient(
-                180deg,
-                rgba(5, 0, 15, 1) 0%,
-                rgba(35, 0, 70, 1) 8%,
-                rgba(68, 0, 128, 1) 20%,
-                rgba(112, 0, 209, 1) 45%,
-                rgba(112, 0, 209, 1) 55%,
-                rgba(68, 0, 128, 1) 80%,
-                rgba(35, 0, 70, 1) 92%,
-                rgba(5, 0, 15, 1) 100%
-        );
-        color-scheme: dark;
+  --accent: #d0a0cd;
+  --bg-tint: rgba(17, 0, 32, 0.62);
+  --glass-r: 22px;
+  --glass-alpha: 0.28;
+  --blur: 18px;
+  --background: linear-gradient(
+    180deg,
+    rgba(6, 0, 20, 1) 0%,
+    rgba(25, 0, 48, 1) 20%,
+    rgba(45, 0, 84, 1) 55%,
+    rgba(18, 0, 46, 1) 100%
+  );
+  --glass-outline: rgba(255, 255, 255, 0.45);
+  --glass-shadow: rgba(14, 0, 45, 0.45);
+  --bg-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  color-scheme: dark;
 }
 
 * {
@@ -38,65 +37,114 @@ body {
 }
 
 body.app {
-        position: relative;
-        min-height: 100dvh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: clamp(1rem, 2vw, 2.5rem);
-        overflow-x: hidden;
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 2vw, 2.5rem);
+  overflow-x: hidden;
 }
 
 body.app::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: var(--background);
-        opacity: 0.85;
-        z-index: -3;
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--background);
+  background-size: 200% 200%;
+  filter: saturate(135%);
+  z-index: -3;
 }
 
 body.app::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-        background-size: 3px 3px;
-        opacity: 0.28;
-        mix-blend-mode: soft-light;
-        pointer-events: none;
-        z-index: -2;
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: var(--bg-noise);
+  background-size: 240px 240px;
+  background-repeat: repeat;
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: -2;
 }
 
 .app-backdrop {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: -1;
-        transition: opacity 0.4s ease;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
 }
 
 .liquid-glass {
-        background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.22) 60%), var(--bg-tint);
-        backdrop-filter: blur(var(--blur)) saturate(140%);
+  background-color: var(--bg-tint);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(12, 0, 32, 0.65));
+  backdrop-filter: blur(var(--blur)) saturate(140%);
+}
+
+.liquid-glass::before,
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+}
+
+.liquid-glass::before {
+  background:
+    radial-gradient(45% 50% at 20% 10%, rgba(255, 255, 255, 0.45), transparent 70%),
+    radial-gradient(60% 65% at 80% 15%, rgba(255, 255, 255, 0.28), transparent 72%),
+    radial-gradient(70% 90% at 50% 80%, rgba(8, 0, 28, 0.45), transparent 75%);
+  filter: blur(45px);
+  opacity: 0.85;
+  mix-blend-mode: screen;
+  transform: translate3d(0, 0, 0);
+}
+
+.liquid-glass::after {
+  background-image: var(--bg-noise);
+  background-size: 320px 320px;
+  background-repeat: repeat;
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
 }
 
 .frosted-shelf {
-        background: rgba(255, 255, 255, var(--glass-alpha));
-        border-radius: var(--glass-r);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 30px rgba(0, 0, 0, 0.25);
-        position: relative;
+  position: relative;
+  background: rgba(255, 255, 255, var(--glass-alpha));
+  border-radius: var(--glass-r);
+  border: 1px solid color-mix(in oklab, var(--glass-outline) 65%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -24px 48px rgba(255, 255, 255, 0.08),
+    0 28px 55px var(--glass-shadow);
+  backdrop-filter: blur(calc(var(--blur) * 0.72)) saturate(150%);
+  overflow: hidden;
+}
+
+.frosted-shelf::before,
+.frosted-shelf::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.frosted-shelf::before {
+  background: radial-gradient(160% 140% at 50% 0%, rgba(255, 255, 255, 0.45), transparent 68%);
+  mix-blend-mode: screen;
+  opacity: 0.65;
 }
 
 .frosted-shelf::after {
-        content: "";
-        position: absolute;
-        inset: 6px;
-        border-radius: calc(var(--glass-r) - 6px);
-        pointer-events: none;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
-        opacity: 0.4;
-        mix-blend-mode: screen;
+  inset: 8px;
+  border-radius: calc(var(--glass-r) - 8px);
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+  opacity: 0.45;
+  mix-blend-mode: screen;
 }
 
 .app-shell {
@@ -286,10 +334,86 @@ body.app::after {
 }
 
 .glow:hover,
-.glow:focus {
+.glow:focus-visible {
         box-shadow: 0 0 24px color-mix(in oklab, var(--accent) 35%, transparent);
         transform: translateY(-1px);
         transition: box-shadow 0.18s, transform 0.18s;
+}
+
+[data-tablist] {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.4rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, calc(var(--glass-alpha) + 0.08));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 14px 32px rgba(5, 0, 25, 0.3);
+        margin: 0 auto clamp(1rem, 3vw, 1.75rem);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(calc(var(--blur) - 4px)) saturate(125%);
+        flex-wrap: wrap;
+}
+
+[data-tablist]::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(120% 160% at 50% 0%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+        opacity: 0.55;
+        pointer-events: none;
+}
+
+[data-tablist] > [role="tab"],
+[data-tablist] > [data-tab] {
+        border: none;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.78);
+        border-radius: 999px;
+        padding: 0.55rem 1.35rem;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        font-family: "Verdana", sans-serif;
+        cursor: pointer;
+        position: relative;
+        transition: color 0.18s ease, transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+        isolation: isolate;
+}
+
+[data-tablist] > [role="tab"]::after,
+[data-tablist] > [data-tab]::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: color-mix(in oklab, var(--accent) 45%, transparent);
+        opacity: 0;
+        transition: opacity 0.18s ease;
+        z-index: -1;
+}
+
+[data-tablist] > [role="tab"][aria-selected="true"],
+[data-tablist] > [data-tab].is-active {
+        color: #160030;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+}
+
+[data-tablist] > [role="tab"][aria-selected="true"]::after,
+[data-tablist] > [data-tab].is-active::after {
+        opacity: 0.95;
+}
+
+[data-tablist] > [role="tab"]:focus-visible,
+[data-tablist] > [data-tab]:focus-visible {
+        outline: 2px solid color-mix(in oklab, var(--accent) 75%, transparent);
+        outline-offset: 4px;
+}
+
+[data-tablist] > [role="tab"]:hover,
+[data-tablist] > [data-tab]:hover {
+        color: #ffffff;
 }
 
 @supports (mix-blend-mode: screen) {
@@ -306,7 +430,7 @@ body.app::after {
         }
 
         .glow:hover::after,
-        .glow:focus::after {
+        .glow:focus-visible::after {
                 opacity: 0.75;
         }
 }
@@ -557,29 +681,50 @@ dialog[open] form button {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-        .liquid-glass {
-                backdrop-filter: none;
-                background: rgba(13, 3, 26, 0.9);
-        }
+  body.app::before {
+    background: #120020;
+    filter: none;
+  }
 
-        .frosted-shelf {
-                background: #221033;
-                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 26px rgba(0, 0, 0, 0.35);
-        }
+  body.app::after {
+    background-image: none;
+    background-color: rgba(12, 5, 24, 0.45);
+    opacity: 1;
+    mix-blend-mode: normal;
+  }
 
-        .frosted-shelf::after {
-                opacity: 0.15;
-        }
+  .liquid-glass {
+    backdrop-filter: none;
+    background: rgba(13, 3, 26, 0.92);
+  }
 
-        body.app::after {
-                opacity: 0.12;
-                mix-blend-mode: normal;
-        }
+  .liquid-glass::before,
+  .liquid-glass::after {
+    display: none;
+  }
 
-        .shortcuts-overlay {
-                backdrop-filter: none;
-                background: rgba(8, 2, 18, 0.85);
-        }
+  .frosted-shelf {
+    background: #221033;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 26px rgba(0, 0, 0, 0.35);
+    backdrop-filter: none;
+  }
+
+  .frosted-shelf::before,
+  .frosted-shelf::after {
+    opacity: 0.18;
+  }
+
+  .shortcuts-overlay {
+    backdrop-filter: none;
+    background: rgba(8, 2, 18, 0.85);
+  }
+
+  [data-tablist] {
+    backdrop-filter: none;
+    background: rgba(24, 12, 36, 0.95);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 24px rgba(0, 0, 0, 0.35);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -593,8 +738,14 @@ dialog[open] form button {
         }
 
         .glow:hover,
-        .glow:focus {
+        .glow:focus-visible {
                 transform: none;
+        }
+
+        [data-tablist] > [role="tab"],
+        [data-tablist] > [data-tab] {
+                transition: none;
+                transform: none !important;
         }
 }
 
