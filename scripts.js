@@ -1,6 +1,9 @@
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js')
 window.copyright.innerText = `AlexSt © ${new Date().getFullYear()} Alias Game`
 
+// Attach keyboard and accessibility helpers once the UI is ready.
+document.addEventListener('DOMContentLoaded', initUiShortcuts)
+
 const SECONDS = 59
 const WINRATE = 60
 
@@ -204,4 +207,239 @@ function endGame() {
 function gameOver() {
   localStorage.clear()
   window.location.href = 'index.html'
+}
+
+// UI helpers ---------------------------------------------------------------
+
+function initUiShortcuts() {
+  const overlayControls = createShortcutOverlay()
+  const filterInput = document.querySelector('[data-filter-input]')
+  const quickTargets = Array.from(document.querySelectorAll('[data-quick-index]')).sort(
+    (a, b) => parseInt(a.dataset.quickIndex, 10) - parseInt(b.dataset.quickIndex, 10)
+  )
+  const tabList = document.querySelector('[data-tablist]')
+  const tabs = tabList
+    ? Array.from(tabList.querySelectorAll('[role="tab"], [data-tab]'))
+    : []
+
+  document.addEventListener('keydown', event => {
+    if (event.defaultPrevented) return
+
+    const key = event.key
+    const isModifierPressed = event.ctrlKey || event.metaKey || event.altKey
+
+    if (key === '?' && !isModifierPressed) {
+      event.preventDefault()
+      overlayControls.toggle()
+      return
+    }
+
+    if (overlayControls.isOpen()) {
+      if (key === 'Escape') {
+        event.preventDefault()
+        overlayControls.close()
+      }
+      return
+    }
+
+    const activeElement = event.target
+    const typingContext =
+      activeElement instanceof HTMLElement &&
+      (activeElement.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeElement.tagName))
+
+    if (key === '/' && !event.shiftKey && !isModifierPressed && filterInput) {
+      if (!typingContext) event.preventDefault()
+      focusElement(filterInput)
+      if (typeof filterInput.select === 'function') filterInput.select()
+      return
+    }
+
+    if (typingContext) return
+
+    if (key === ' ' || key === 'Spacebar') {
+      const gameButton = document.getElementById('beginContinuedbtn')
+      if (gameButton) {
+        event.preventDefault()
+        if (isElementInteractive(gameButton)) {
+          focusAndClick(gameButton)
+        } else if (typeof gameButton.click === 'function') {
+          gameButton.click()
+        }
+        return
+      }
+      const startButton = quickTargets.find(
+        item => parseInt(item.dataset.quickIndex, 10) === 1 && isElementInteractive(item)
+      )
+      if (startButton) {
+        event.preventDefault()
+        focusAndClick(startButton)
+      }
+      return
+    }
+
+    if (key === 'n' || key === 'N') {
+      const nextButton = document.getElementById('nextWordbtn')
+      if (isElementInteractive(nextButton)) {
+        event.preventDefault()
+        focusAndClick(nextButton)
+      }
+      return
+    }
+
+    if (key === 's' || key === 'S') {
+      const skipButton = document.getElementById('skipWordbtn')
+      if (isElementInteractive(skipButton)) {
+        event.preventDefault()
+        focusAndClick(skipButton)
+      }
+      return
+    }
+
+    if (key === 'ArrowLeft') {
+      if (moveTabFocus(tabs, -1)) event.preventDefault()
+      return
+    }
+
+    if (key === 'ArrowRight') {
+      if (moveTabFocus(tabs, 1)) event.preventDefault()
+      return
+    }
+
+    if (/^[1-9]$/.test(key)) {
+      const quickTarget = quickTargets.find(
+        item => parseInt(item.dataset.quickIndex, 10) === parseInt(key, 10) && isElementInteractive(item)
+      )
+      if (quickTarget) {
+        event.preventDefault()
+        focusAndClick(quickTarget)
+      }
+    }
+  })
+}
+
+function createShortcutOverlay() {
+  const overlay = document.getElementById('shortcutsOverlay')
+  if (!overlay) {
+    return { open() {}, close() {}, toggle() {}, isOpen: () => false }
+  }
+
+  const panel = overlay.querySelector('.shortcuts-panel')
+  const closeTargets = overlay.querySelectorAll('[data-shortcuts-close]')
+  const openTargets = document.querySelectorAll('[data-shortcuts-open]')
+  const rovingItems = Array.from(overlay.querySelectorAll('[data-shortcut-item]'))
+  let lastFocused = null
+  let activeIndex = 0
+
+  const setRoving = index => {
+    rovingItems.forEach((item, idx) => {
+      item.tabIndex = idx === index ? 0 : -1
+      item.setAttribute('role', 'listitem')
+    })
+    activeIndex = index
+  }
+
+  setRoving(0)
+
+  const open = () => {
+    if (!overlay.hidden) return
+    lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    overlay.hidden = false
+    overlay.setAttribute('aria-hidden', 'false')
+    document.body.classList.add('shortcuts-open')
+    setRoving(0)
+    const firstItem = rovingItems[0]
+    if (firstItem) focusElement(firstItem)
+  }
+
+  const close = () => {
+    if (overlay.hidden) return
+    overlay.hidden = true
+    overlay.setAttribute('aria-hidden', 'true')
+    document.body.classList.remove('shortcuts-open')
+    if (lastFocused) focusElement(lastFocused)
+  }
+
+  const toggle = () => (overlay.hidden ? open() : close())
+  const isOpen = () => !overlay.hidden
+
+  openTargets.forEach(trigger => {
+    trigger.addEventListener('click', event => {
+      event.preventDefault()
+      open()
+    })
+  })
+
+  closeTargets.forEach(trigger => {
+    trigger.addEventListener('click', event => {
+      event.preventDefault()
+      close()
+    })
+  })
+
+  overlay.addEventListener('click', event => {
+    const target = event.target
+    if (target && target.dataset && target.dataset.shortcutsClose !== undefined) close()
+  })
+
+  overlay.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      close()
+    }
+  })
+
+  if (panel) {
+    panel.addEventListener('keydown', event => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault()
+        if (!rovingItems.length) return
+        const direction = event.key === 'ArrowDown' ? 1 : -1
+        const nextIndex = (activeIndex + direction + rovingItems.length) % rovingItems.length
+        setRoving(nextIndex)
+        focusElement(rovingItems[nextIndex])
+      }
+    })
+  }
+
+  return { open, close, toggle, isOpen }
+}
+
+function moveTabFocus(tabs, direction) {
+  if (!tabs || !tabs.length) return false
+
+  let currentIndex = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true' || tab.classList.contains('is-active'))
+  if (currentIndex < 0) currentIndex = 0
+
+  const nextIndex = (currentIndex + direction + tabs.length) % tabs.length
+  const nextTab = tabs[nextIndex]
+  if (nextTab) {
+    focusElement(nextTab)
+    if (typeof nextTab.click === 'function') nextTab.click()
+    return true
+  }
+  return false
+}
+
+function isElementInteractive(element) {
+  if (!(element instanceof HTMLElement) || element.disabled) return false
+  if (element.offsetParent !== null) return true
+  const rect = element.getBoundingClientRect()
+  return rect.width > 0 && rect.height > 0
+}
+
+function focusElement(element) {
+  if (!(element instanceof HTMLElement)) return
+  if (typeof element.focus === 'function') {
+    try {
+      element.focus({ preventScroll: true })
+    } catch (err) {
+      element.focus()
+    }
+  }
+}
+
+function focusAndClick(element) {
+  if (!(element instanceof HTMLElement)) return
+  focusElement(element)
+  if (typeof element.click === 'function') element.click()
 }
